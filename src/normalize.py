@@ -44,6 +44,11 @@ def normalize(data: dict) -> dict:
         elif key == "case_type":
             value = value.title()
 
+        elif key == "lawyer_name":
+            value = re.sub(r"\s+", " ", value)
+            if not value.startswith("Adv."):
+                value = "Adv. " + value
+
         elif key in STRING_FIELDS:
             value = re.sub(r"\s+", " ", value)
 
