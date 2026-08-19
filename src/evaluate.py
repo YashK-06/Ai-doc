@@ -4,6 +4,8 @@ import os
 
 from ollama import chat
 from reader import extract_document
+from normalize import normalize
+from validate import validate
 
 
 FIELDS = [
@@ -84,9 +86,25 @@ def load_label(label_path):
         return json.load(file)
 
 
+def save_result(document_name: str, data: dict):
+    """Save validated result to output JSON file."""
+
+    output_dir = "data/court_document_dataset/output"
+    os.makedirs(output_dir, exist_ok=True)
+
+    output_path = os.path.join(output_dir, f"{document_name}.json")
+
+    with open(output_path, "w", encoding="utf-8") as file:
+        json.dump(data, file, indent=2, ensure_ascii=False)
+
+    return output_path
+
+
 def evaluate_document(document_path, label_path):
 
-    document_name = os.path.basename(document_path)
+    document_name = os.path.splitext(
+        os.path.basename(document_path)
+    )[0]
 
     print(f"\n===== {document_name} =====")
 
@@ -98,6 +116,20 @@ def evaluate_document(document_path, label_path):
 
     # Get Qwen prediction
     prediction = extract_with_qwen(document_text)
+
+    # Normalize
+    prediction = normalize(prediction)
+
+    # Validate
+    prediction, warnings = validate(prediction)
+
+    # Save result
+    output_path = save_result(document_name, prediction)
+
+    if warnings:
+        print(f"  Warnings: {', '.join(warnings)}")
+
+    print(f"  Saved to: {output_path}")
 
     # Load correct answer
     ground_truth = load_label(label_path)
