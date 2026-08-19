@@ -31,14 +31,14 @@ response = chat(
             "content": f"""
 Extract the following fields from the document:
 
-- name
+- applicant_name
 - case_number
 - respondent_name
-- lawyer
-- court
+- lawyer_name
+- court_name
 - case_type
 - filing_date
-- applicant_address
+- address
 
 Rules:
 1. Return only valid JSON.

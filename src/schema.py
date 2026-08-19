@@ -1,10 +1,10 @@
 EXTRACTION_FIELDS = {
-    "name": None,
+    "applicant_name": None,
     "case_number": None,
     "respondent_name": None,
-    "lawyer": None,
-    "court": None,
+    "lawyer_name": None,
+    "court_name": None,
     "case_type": None,
     "filing_date": None,
-    "applicant_address": None
+    "address": None
 }

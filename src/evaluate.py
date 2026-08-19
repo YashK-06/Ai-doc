@@ -7,14 +7,14 @@ from reader import extract_document
 
 
 FIELDS = [
-    "name",
+    "applicant_name",
     "case_number",
     "respondent_name",
-    "lawyer",
-    "court",
+    "lawyer_name",
+    "court_name",
     "case_type",
     "filing_date",
-    "applicant_address"
+    "address"
 ]
 
 
@@ -41,14 +41,14 @@ def extract_with_qwen(document_text):
     prompt = f"""
 Extract the following fields from the document:
 
-- name
+- applicant_name
 - case_number
 - respondent_name
-- lawyer
-- court
+- lawyer_name
+- court_name
 - case_type
 - filing_date
-- applicant_address
+- address
 
 Rules:
 1. Return only valid JSON.
