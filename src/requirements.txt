@@ -1,0 +1,7 @@
+fastapi
+uvicorn[standard]
+python-multipart
+python-docx
+ollama
+pymongo
+python-dotenv
