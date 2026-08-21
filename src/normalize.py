@@ -9,6 +9,29 @@ STRING_FIELDS = [
     "address"
 ]
 
+CASE_TYPE_MAP = {
+    "civil": "Civil",
+    "civil case": "Civil",
+    "civil dispute": "Civil",
+
+    "criminal": "Criminal",
+    "criminal case": "Criminal",
+
+    "family": "Family",
+    "family case": "Family",
+
+    "commercial": "Commercial",
+    "commercial case": "Commercial",
+
+    "labour": "Labour",
+    "labour case": "Labour",
+
+    "contract": "Contract",
+    "contract matter": "Contract",
+
+    "property": "Property",
+    "property case": "Property"
+}
 
 def normalize(data: dict) -> dict:
     """Clean and standardize extracted fields."""
@@ -42,7 +65,7 @@ def normalize(data: dict) -> dict:
             value = value.upper()
 
         elif key == "case_type":
-            value = value.title()
+            value = normalize_case_type(value)
 
         elif key == "lawyer_name":
             value = re.sub(r"\s+", " ", value)
@@ -55,6 +78,16 @@ def normalize(data: dict) -> dict:
         result[key] = value
 
     return result
+
+def normalize_case_type(value: str) -> str:
+    """Convert case-type variations into a standard value."""
+
+    normalized = value.strip().lower()
+
+    return CASE_TYPE_MAP.get(
+        normalized,
+        value.title()
+    )
 
 
 def normalize_date(date_str: str) -> str:
